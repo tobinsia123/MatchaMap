@@ -154,20 +154,33 @@ If you want to host `MatchaSpot` data in Firebase instead of Django:
    - `price_range` (string: `$`, `$$`, `$$$`, `$$$$`)
    - `is_featured` (boolean)
    - `imageUrl` (string, optional; host in Firebase Storage or external URL)
-3. Security rules (starter):
+3. **Security rules (REQUIRED - See FIRESTORE_SETUP.md for detailed instructions)**:
+   
+   ⚠️ **IMPORTANT**: Without proper Firestore security rules, you'll get "Missing or insufficient permissions" errors when posting experiences.
+   
+   Quick setup:
+   - Go to Firebase Console → Firestore Database → Rules tab
+   - Paste the rules from `FIRESTORE_SETUP.md` (or see below)
+   - Click **"Publish"** (this is critical!)
+   
    ```
    rules_version = '2';
    service cloud.firestore {
      match /databases/{database}/documents {
-       match /experiences/{id} { allow read: if true; allow write: if request.auth != null; }
-       match /spots/{id} {
+       match /experiences/{experienceId} {
          allow read: if true;
-         // lock down writes to admins or your own UID
+         allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+         allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+       }
+       match /spots/{spotId} {
+         allow read: if true;
          allow write: if false;
        }
      }
    }
    ```
+   
+   See `FIRESTORE_SETUP.md` for troubleshooting if you encounter permission errors.
 4. Restart the frontend after setting Firebase env vars. The app will read spots from Firestore and continue to use Firestore for the feed.
 
 ## API Endpoints

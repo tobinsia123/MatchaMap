@@ -181,7 +181,11 @@ function App() {
       await fbExperiences.create({ user: currentUser, ...payload });
       fetchExperiences();
     } catch (err) {
-      const detail = err?.message || 'Unable to post experience right now.';
+      let detail = err?.message || 'Unable to post experience right now.';
+      // Check for Firestore permission errors
+      if (detail.includes('permission') || detail.includes('PERMISSION_DENIED')) {
+        detail = 'Permission denied. Make sure Firestore security rules allow authenticated users to create experiences. See README for setup instructions.';
+      }
       throw new Error(detail);
     }
   };

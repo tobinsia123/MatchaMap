@@ -61,7 +61,9 @@ const FeedPanel = ({
       });
       resetForm();
     } catch (err) {
-      setFormError(err?.message || 'Unable to post experience right now.');
+      const msg = err?.message || 'Unable to post experience right now.';
+      setFormError(msg);
+      console.error('Error creating experience:', err);
     } finally {
       setSubmitting(false);
     }
