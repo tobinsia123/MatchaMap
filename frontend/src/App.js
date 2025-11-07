@@ -36,7 +36,7 @@ function App() {
 
   useEffect(() => {
     fetchSpots();
-
+   
     const handleScroll = () => {
       if (window.scrollY > 100 && showLanding) {
         handleEnter();
@@ -71,7 +71,7 @@ function App() {
     try {
       setLoading(true);
       setError(null);
-
+      
       const items = await fbSpots.list();
 
       // Client-side filters for simplicity
@@ -110,6 +110,7 @@ function App() {
 
   const handleEnter = () => {
     setShowLanding(false);
+
     document.body.classList.add('map-active');
     document.documentElement.style.overflow = 'hidden';
   };
@@ -117,6 +118,7 @@ function App() {
   const handleMarkerClick = (spot) => {
     setSelectedSpot(spot);
     setSidebarOpen(true);
+
     setTimeout(() => {
       const element = document.getElementById(`spot-${spot.id}`);
       if (element) {
@@ -138,6 +140,7 @@ function App() {
       (spot.description && spot.description.toLowerCase().includes(searchLower))
     );
   });
+
 
   const handleAuthSubmit = async (form, resetForm) => {
     setAuthLoading(true);
@@ -200,20 +203,19 @@ function App() {
       {showLanding && <LandingPage onEnter={handleEnter} />}
 
       <div className={`main-content ${showLanding ? 'hidden' : ''}`}>
-        <MapView
-          spots={filteredSpots}
+        <MapView 
+          spots={filteredSpots} 
           onMarkerClick={handleMarkerClick}
           selectedSpot={selectedSpot}
           onUserLocationChange={setUserLocation}
         />
-
-        <button
+        
+        <button 
           className="sidebar-toggle-btn"
           onClick={() => setSidebarOpen(true)}
           title="Open spots list"
         >
-          <span className="toggle-icon">🍵</span>
-          <span className="toggle-text">Spots</span>
+          <img src="/MatchaverseLogo.png" alt="Matchaverse" className="sidebar-logo" />
         </button>
 
         <button
@@ -245,6 +247,7 @@ function App() {
           userLocation={userLocation}
         />
 
+
         <FeedPanel
           isOpen={showFeed}
           onClose={() => setShowFeed(false)}
@@ -257,6 +260,7 @@ function App() {
           onRequireAuth={() => handleRequireAuth('login')}
           onLogout={handleLogout}
         />
+
       </div>
 
       {loading && !showLanding && (
@@ -275,6 +279,7 @@ function App() {
         </div>
       )}
 
+
       <AuthModal
         isOpen={authModalOpen}
         mode={authMode}
@@ -287,6 +292,7 @@ function App() {
         loading={authLoading}
         error={authError}
       />
+
     </div>
   );
 }

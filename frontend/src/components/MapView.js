@@ -68,7 +68,6 @@ const MapView = ({ spots, onMarkerClick, selectedSpot, onUserLocationChange }) =
   const mapRef = useRef(null);
   const [userLocation, setUserLocation] = useState(null);
   const [locationError, setLocationError] = useState(null);
-  
   const updateUserLocation = (coords) => {
     setUserLocation(coords);
     if (typeof onUserLocationChange === 'function') {
@@ -137,11 +136,16 @@ const MapView = ({ spots, onMarkerClick, selectedSpot, onUserLocationChange }) =
       >
         <span className="location-icon">📍</span>
       </button>
+      {/* Brand / logo (clickable but inert for now) */}
+      <a href="#" className="map-brand" onClick={(e) => e.preventDefault()}>
+        <img src="/MatchaverseLogo.png" alt="logo" className="map-brand-logo" />
+        <span className="map-brand-text">Matchaverse</span>
+      </a>
       
       <MapContainer
         center={defaultCenter}
         zoom={defaultZoom}
-        style={{ height: '100vh', width: '100vw' }}
+        style={{ height: '100%', width: '100%' }}
         zoomControl={true}
         whenCreated={(mapInstance) => {
           mapRef.current = mapInstance;
@@ -202,6 +206,11 @@ const MapView = ({ spots, onMarkerClick, selectedSpot, onUserLocationChange }) =
           return null;
         })}
       </MapContainer>
+      {/* Brand / logo (clickable but inert for now) */}
+      <a href="#" className="map-brand" onClick={(e) => e.preventDefault()}>
+        <img src="/MatchaverseLogo.png" alt="logo" className="map-brand-logo" />
+        <span className="map-brand-text">Matchaverse</span>
+      </a>
     </div>
   );
 };
