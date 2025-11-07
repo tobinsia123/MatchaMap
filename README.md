@@ -1,4 +1,4 @@
-# MatchaMap 🍵
+# Matchaverse
 
 A full-stack web application for UCI students to discover and explore matcha spots in and around Irvine, CA.
 
