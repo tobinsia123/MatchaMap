@@ -55,7 +55,7 @@ const AuthModal = ({ isOpen, mode, onClose, onSwitchMode, onSubmit, loading, err
 
           {mode === 'register' && (
             <div className="auth-form-group">
-              <label htmlFor="email">Email (optional)</label>
+              <label htmlFor="email">Email</label>
               <input
                 id="email"
                 name="email"

@@ -85,7 +85,7 @@ return (
           <p>Share and discover matcha experiences from the community.</p>
         </div>
         <div className="feed-header-actions">
-          {user ? (
+          {user && (
             <div className="feed-user-info">
               <div className="feed-user-avatar" aria-hidden="true">
                 {user.username.charAt(0).toUpperCase()}
@@ -97,18 +97,10 @@ return (
                   onClick={onLogout}
                   className="feed-logout-btn"
                 >
-                  Log out
+                  Logout
                 </button>
               </div>
             </div>
-          ) : (
-            <button
-              type="button"
-              className="feed-login-btn"
-              onClick={onRequireAuth}
-            >
-              Log in / Register
-            </button>
           )}
           <button
             className="feed-close-btn"
