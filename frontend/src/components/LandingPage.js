@@ -85,9 +85,11 @@ const LandingPage = ({ onEnter }) => {
             <span className="title-letter">c</span>
             <span className="title-letter">h</span>
             <span className="title-letter">a</span>
-            <span className="title-letter">M</span>
-            <span className="title-letter">a</span>
-            <span className="title-letter">p</span>
+            <span className="title-letter">v</span>
+            <span className="title-letter">e</span>
+            <span className="title-letter">r</span>
+            <span className="title-letter">s</span>
+            <span className="title-letter">e</span>
           </h1>
           <p className="landing-subtitle">
             <span className="subtitle-word">Discover</span>{' '}
