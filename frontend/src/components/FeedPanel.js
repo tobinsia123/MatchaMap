@@ -69,7 +69,15 @@ const FeedPanel = ({
     }
   };
 
-  return (
+return (
+  <>
+    {/* Background overlay (dim layer) */}
+    <div
+      className={`feed-overlay ${isOpen ? 'open' : ''}`}
+      onClick={onClose}
+    ></div>
+
+    {/* Sliding Feed Panel */}
     <div className={`feed-panel ${isOpen ? 'open' : ''}`}>
       <div className="feed-panel-header">
         <div>
@@ -84,17 +92,29 @@ const FeedPanel = ({
               </div>
               <div className="feed-user-meta">
                 <span>@{user.username}</span>
-                <button type="button" onClick={onLogout} className="feed-logout-btn">
+                <button
+                  type="button"
+                  onClick={onLogout}
+                  className="feed-logout-btn"
+                >
                   Log out
                 </button>
               </div>
             </div>
           ) : (
-            <button type="button" className="feed-login-btn" onClick={onRequireAuth}>
+            <button
+              type="button"
+              className="feed-login-btn"
+              onClick={onRequireAuth}
+            >
               Log in / Register
             </button>
           )}
-          <button className="feed-close-btn" onClick={onClose} aria-label="Close feed">
+          <button
+            className="feed-close-btn"
+            onClick={onClose}
+            aria-label="Close feed"
+          >
             ✕
           </button>
         </div>
@@ -145,7 +165,9 @@ const FeedPanel = ({
                 >
                   <option value="">No rating</option>
                   {[1, 2, 3, 4, 5].map((value) => (
-                    <option key={value} value={value}>{value} / 5</option>
+                    <option key={value} value={value}>
+                      {value} / 5
+                    </option>
                   ))}
                 </select>
               </div>
@@ -165,7 +187,11 @@ const FeedPanel = ({
 
               {formError && <p className="feed-form-error">{formError}</p>}
 
-              <button type="submit" className="feed-submit-btn" disabled={submitting}>
+              <button
+                type="submit"
+                className="feed-submit-btn"
+                disabled={submitting}
+              >
                 {submitting ? 'Posting...' : 'Post experience'}
               </button>
             </form>
@@ -180,7 +206,11 @@ const FeedPanel = ({
         <section className="feed-list">
           <div className="feed-list-header">
             <h3>Community Experiences</h3>
-            <button className="feed-refresh-btn" onClick={onRefresh} disabled={loading}>
+            <button
+              className="feed-refresh-btn"
+              onClick={onRefresh}
+              disabled={loading}
+            >
               {loading ? 'Refreshing...' : 'Refresh'}
             </button>
           </div>
@@ -189,7 +219,9 @@ const FeedPanel = ({
             <div className="feed-loading">Loading experiences...</div>
           ) : experiences.length === 0 ? (
             <div className="feed-empty">
-              <span role="img" aria-label="cup">🍵</span>
+              <span role="img" aria-label="cup">
+                🍵
+              </span>
               <p>No matcha experiences yet. Be the first to share!</p>
             </div>
           ) : (
@@ -198,13 +230,17 @@ const FeedPanel = ({
                 <article key={experience.id} className="feed-item">
                   <header>
                     <div className="feed-item-meta">
-                      <span className="feed-item-user">@{experience.user?.username || 'anonymous'}</span>
+                      <span className="feed-item-user">
+                        @{experience.user?.username || 'anonymous'}
+                      </span>
                       <span className="feed-item-date">
                         {new Date(experience.created_at).toLocaleString()}
                       </span>
                     </div>
                     {experience.rating && (
-                      <span className="feed-item-rating">{experience.rating} / 5</span>
+                      <span className="feed-item-rating">
+                        {experience.rating} / 5
+                      </span>
                     )}
                   </header>
 
@@ -220,7 +256,8 @@ const FeedPanel = ({
         </section>
       </div>
     </div>
-  );
-};
+  </>
+);
 
+};
 export default FeedPanel;
