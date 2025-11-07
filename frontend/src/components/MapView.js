@@ -17,17 +17,22 @@ L.Icon.Default.mergeOptions({
 });
 
 // Custom matcha icon
-const createMatchaIcon = (isFeatured) => {
+const createMatchaIcon = (isFeatured, imageUrl) => {
+  // If an image URL is provided, render the image inside the marker. Otherwise fall back to emoji.
+  const imgHtml = imageUrl
+    ? `<img src="${imageUrl}" class="marker-thumb" alt="spot"/>`
+    : '🍵';
+
   return L.divIcon({
     className: 'matcha-marker',
     html: `
       <div class="marker-container ${isFeatured ? 'featured' : ''}">
         <div class="marker-arrow"></div>
-        <div class="marker-icon">🍵</div>
+        <div class="marker-icon">${imgHtml}</div>
       </div>
     `,
-    iconSize: [40, 50],
-    iconAnchor: [20, 50],
+    iconSize: [44, 54],
+    iconAnchor: [22, 54],
     popupAnchor: [0, -50],
   });
 };
@@ -59,7 +64,7 @@ const MapController = ({ center, zoom }) => {
   return null;
 };
 
-const MapView = ({ spots, onMarkerClick, selectedSpot, onUserLocationChange }) => {
+const MapView = ({ spots, onMarkerClick, selectedSpot }) => {
   const mapRef = useRef(null);
   const [userLocation, setUserLocation] = useState(null);
   const [locationError, setLocationError] = useState(null);
@@ -73,16 +78,11 @@ const MapView = ({ spots, onMarkerClick, selectedSpot, onUserLocationChange }) =
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          const location = [latitude, longitude];
-          setUserLocation(location);
+          setUserLocation([latitude, longitude]);
           setLocationError(null);
-          // Notify parent component
-          if (onUserLocationChange) {
-            onUserLocationChange(location);
-          }
           // Center map on user location
           if (mapRef.current) {
-            mapRef.current.setView(location, 15, {
+            mapRef.current.setView([latitude, longitude], 15, {
               animate: true,
               duration: 1.0
             });
@@ -169,7 +169,7 @@ const MapView = ({ spots, onMarkerClick, selectedSpot, onUserLocationChange }) =
               <Marker
                 key={spot.id}
                 position={position}
-                icon={createMatchaIcon(spot.is_featured)}
+                icon={createMatchaIcon(spot.is_featured, spot.image_url)}
                 eventHandlers={{
                   click: () => onMarkerClick(spot),
                   mouseover: (e) => {
@@ -179,6 +179,9 @@ const MapView = ({ spots, onMarkerClick, selectedSpot, onUserLocationChange }) =
               >
                 <Popup>
                   <div className="map-popup">
+                    {spot.image_url && (
+                      <img src={spot.image_url} alt={spot.name} className="popup-image" />
+                    )}
                     <h3>{spot.name}</h3>
                     {spot.rating && (
                       <p className="popup-rating">⭐ {parseFloat(spot.rating).toFixed(1)}</p>
